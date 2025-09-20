@@ -1,3 +1,4 @@
+import "./control/Base.js"
 let mainCanvas
 let ctx;
 
@@ -30,7 +31,7 @@ let delta = 0;
 let strain = [];
 let fps = [];
 
-let scene = controls.base();
+let scene = new Base();
 let screens = {}
 let scale = 1;
 let resScale = 1;
