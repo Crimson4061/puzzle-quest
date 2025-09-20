@@ -5,6 +5,18 @@ let ctx;
 let version = "0.3.1";
 let versionIndex = 4;
 
+let time = performance.now();
+let delta = 0;
+let strain = [];
+let fps = [];
+
+let scene = new Base();
+let screens = {}
+let scale = 1;
+let resScale = 1;
+
+let currentMode = "";
+
 function init() {
 	mainCanvas = document.getElementById("main-canvas");
 	ctx = mainCanvas.getContext("2d");
@@ -25,18 +37,6 @@ function init() {
 
 	loop();
 }
-
-let time = performance.now();
-let delta = 0;
-let strain = [];
-let fps = [];
-
-let scene = new Base();
-let screens = {}
-let scale = 1;
-let resScale = 1;
-
-let currentMode = "";
 
 function loop(timestamp) {
 	delta = (timestamp ?? performance.now()) - time;
