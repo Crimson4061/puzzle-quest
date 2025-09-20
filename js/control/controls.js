@@ -36,18 +36,17 @@ let controls = {
 					ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 				}
 			},
+			...args
 		})
 	},
 	image(args) {
-		return {
-			...controls.base(),
+		return new Base().assign({
 			src: "",
-
 			render() {
 				ctx.drawImage(this.src, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 			},
 			...args
-		}
+		})
 	},
 	button(args) {
 		return {
@@ -134,8 +133,7 @@ let controls = {
 		}
 	},
 	label(args) {
-		return {
-			...controls.base(),
+		return new Base().assign({
 			fill: "white",
 			stroke: "#0000",
 			thickness: 4,
@@ -198,7 +196,7 @@ let controls = {
 				this.lines = lines;
 			},
 			...args
-		}
+		})
 	},
 	input(args) {
 		let ct = {
@@ -437,8 +435,7 @@ let controls = {
 		return ct;
 	},
 	board(args) {
-		return {
-			...controls.base(),
+		return new Base().assign({
 			board: Board(),
 			back1: "#666666cc",
 			back2: "#888888cc",
@@ -719,7 +716,7 @@ let controls = {
 						});
 						console.log(popup);
 						
-						let effect; 
+						let effect;
 						this.effects.push(effect = {
 							type: "free-lightning",
 							color: type,
@@ -773,7 +770,7 @@ let controls = {
 						});
 						console.log(popup);
 
-						let effect; 
+						let effect;
 						this.effects.push(effect = {
 							type: "lightning",
 							color: tile.type,
@@ -1098,7 +1095,7 @@ let controls = {
 							exp: 0n,
 						});
 						
-						let effect; 
+						let effect;
 						this.effects.push(effect = {
 							type: "free-lightning",
 							color: null,
@@ -1418,7 +1415,7 @@ let controls = {
 										tile.countdown.toLocaleString("en-US"),
 										this.rect.x + size * (x + offset.x + .5), 
 										this.rect.y + size * (y - offset.y + .52), 
-									);  
+									);
 								}
 							} else {
 
@@ -1470,7 +1467,7 @@ let controls = {
 						this.rect.x + size * this.hint.x - margin, 
 						this.rect.y + size * this.hint.y - margin, 
 						size * (this.hint.type == "hoz" ? 2 : 1) + margin * 2, 
-						size * (this.hint.type == "vet" ? 2 : 1) + margin * 2,  
+						size * (this.hint.type == "vet" ? 2 : 1) + margin * 2,
 					);
 					ctx.globalAlpha = 1;
 				}
@@ -1749,6 +1746,6 @@ let controls = {
 				}
 			},
 			...args,
-		}
+		})
 	}
 }
