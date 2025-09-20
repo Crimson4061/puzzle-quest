@@ -1,4 +1,4 @@
-import "./control/Base.js"
+import {Base} from "./control/Base.js"
 let mainCanvas
 let ctx;
 
@@ -207,7 +207,7 @@ function doTouchEvent(e, type) {
 }
 
 function loadScreen(screenName, clear = true) {
-	if (clear) scene = controls.base();
+	if (clear) scene = new Base();
 	screens[screenName]();
 }
 

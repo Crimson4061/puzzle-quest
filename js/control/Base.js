@@ -1,4 +1,4 @@
-export function Base(args) {
+function Base(args) {
 	return {
 		id: "",
 		controls: [],
@@ -38,3 +38,4 @@ export function Base(args) {
 		...args
 	}
 }
+export {Base}
