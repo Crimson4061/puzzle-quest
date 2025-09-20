@@ -1,47 +1,7 @@
+import "./Base.js"
 let controls = {
-	base(args) {
-		return {
-			id: "",
-			controls: [],
-			append(ct, id = "") {
-				this.controls.push(ct);
-				if (id) {
-					this["$" + id] = ct;
-					ct.id = id;
-				}
-			},
-			remove(ct) {
-				let index = this.controls.indexOf(ct);
-				if (index > 0) {
-					this.controls.splice(index, 1);
-					if (ct.id && this.controls["$" + ct.id]) delete this.controls["$" + ct.id];
-				}
-			},
-
-			position: Ex(0, 0),
-			size: Ex(0, 0),
-			rect: Rect(0, 0),
-
-			alpha: 1,
-			clickthrough: false,
-
-			__mouseIn: false,
-
-			render() {},
-
-			onupdate() {},
-			onpointerin() {},
-			onpointerout() {},
-			onpointerdown() {},
-			onpointermove() {},
-			onpointerup() {},
-			onmousewheel() {},
-			...args
-		}
-	},
 	rect(args) {
-		return {
-			...controls.base(),
+		return new Base().assign({
 			fill: "white",
 			radius: 0,
 
@@ -76,8 +36,7 @@ let controls = {
 					ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 				}
 			},
-			...args
-		}
+		})
 	},
 	image(args) {
 		return {
