@@ -15,6 +15,12 @@ let screens = {}
 let scale = 1;
 let resScale = 1;
 
+let pointers = {};
+let mousePos = { x: 0, y: 0 }
+let lastArgs;
+let isTouch;
+let isDown;
+
 let currentMode = "";
 
 function init() {
@@ -121,11 +127,6 @@ function renderControls(cts, rect, alpha = 1) {
 	}
 }
 
-let pointers = {};
-let mousePos = { x: 0, y: 0 }
-let lastArgs;
-let isTouch;
-let isDown;
 
 function updateInMouseState(cts, clickthrough = false, did = false) {
 	let did2 = did;
