@@ -1,4 +1,4 @@
-import {Base} from "./Base.js"
+import("./Base.js")
 let controls = {
 	rect(args) {
 		return new Base().assign({
