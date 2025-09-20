@@ -1,4 +1,4 @@
-import {Base} from "./control/Base.js"
+import("./control/Base.js")
 let mainCanvas
 let ctx;
 
