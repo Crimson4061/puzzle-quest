@@ -38,4 +38,4 @@ function Base(args) {
 		...args
 	}
 }
-export {Base}
+export default {Base}

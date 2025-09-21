@@ -1,4 +1,4 @@
-import("./Base.js").then(module => {const Base = module.Base;});
+import("./Base.js").then(module => {const Base = module.default;});
 let controls = {
 	rect(args) {
 		return new Base().assign({

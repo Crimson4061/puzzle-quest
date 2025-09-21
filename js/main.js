@@ -1,4 +1,4 @@
-import("./control/Base.js").then(module => {const Base = module.Base;});
+import("./control/Base.js").then(module => {const Base = module.default;});
 
 let mainCanvas
 let ctx;
