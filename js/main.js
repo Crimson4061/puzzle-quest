@@ -1,4 +1,3 @@
-let {Base} = await import("./control/Base.js");
 let mainCanvas
 let ctx;
 
@@ -10,10 +9,14 @@ let delta = 0;
 let strain = [];
 let fps = [];
 
-let scene = new Base();
 let screens = {}
 let scale = 1;
 let resScale = 1;
+
+let {Base} = await import("./control/Base.js");
+
+let scene = new Base();
+
 
 let pointers = {};
 let mousePos = { x: 0, y: 0 }
