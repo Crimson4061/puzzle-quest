@@ -1,4 +1,4 @@
-import("./control/Base.js")
+let {Base} = await import("./control/Base.js");
 let mainCanvas
 let ctx;
 
