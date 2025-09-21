@@ -1,3 +1,5 @@
+import("./control/Base.js").then(module => {const Base = module.Base;});
+
 let mainCanvas
 let ctx;
 
@@ -12,8 +14,6 @@ let fps = [];
 let screens = {}
 let scale = 1;
 let resScale = 1;
-
-let {Base} = await import("./control/Base.js");
 
 let scene = new Base();
 

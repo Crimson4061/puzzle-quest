@@ -1,4 +1,4 @@
-let {Base} = await import("./Base.js");
+import("./Base.js").then(module => {const Base = module.Base;});
 let controls = {
 	rect(args) {
 		return new Base().assign({
