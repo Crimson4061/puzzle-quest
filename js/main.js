@@ -1,6 +1,11 @@
-async function importInit() {
-	let { Base } = await import("./Controls.js");
-	console.log(Base);
+let { Base }
+function importInit() {
+
+	import("./Controls.js").then((module) => {
+		Base = module.Base;
+		console.log(Base);
+	});
+
 	init();
 }
 let mainCanvas;
