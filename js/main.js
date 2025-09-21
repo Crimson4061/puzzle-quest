@@ -1,6 +1,7 @@
 
 async function importInit() {
-	await import("./Controls.js");
+	let { Base } = await import("./Controls.js");
+	let scene = new Base();
 	init();
 }
 let mainCanvas
@@ -18,7 +19,7 @@ let screens = {}
 let scale = 1;
 let resScale = 1;
 
-let scene = new Base();
+
 
 
 let pointers = {};
