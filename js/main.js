@@ -1,10 +1,9 @@
-
 async function importInit() {
 	let { Base } = await import("./Controls.js");
-	let scene = new Base();
+	console.log(Base);
 	init();
 }
-let mainCanvas
+let mainCanvas;
 let ctx;
 
 let version = "0.3.1";
@@ -15,15 +14,15 @@ let delta = 0;
 let strain = [];
 let fps = [];
 
-let screens = {}
+let screens = {};
 let scale = 1;
 let resScale = 1;
 
-
+let scene = new Base();
 
 
 let pointers = {};
-let mousePos = { x: 0, y: 0 }
+let mousePos = { x: 0, y: 0 };
 let lastArgs;
 let isTouch;
 let isDown;
