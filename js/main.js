@@ -1,5 +1,8 @@
-import("./control/Base.js").then(module => {const Base = module.default;});
 
+async function importInit() {
+	await import("./Controls.js");
+	init();
+}
 let mainCanvas
 let ctx;
 

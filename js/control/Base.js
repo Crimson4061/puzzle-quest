@@ -38,4 +38,4 @@ function Base(args) {
 		...args
 	}
 }
-export default {Base}
+export default await {Base}
