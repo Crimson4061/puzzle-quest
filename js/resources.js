@@ -10,6 +10,6 @@ function loadRes() {
 
 let res = {
 	images: {
-		"no-unity": "res/i-hate-unity.gif",
+
 	},
 }
