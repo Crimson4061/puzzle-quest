@@ -1,41 +1,55 @@
-let mainCanvas
-let ctx;
+var Base;
+var mainCanvas;
+var ctx;
 
-let version = "0.3.1";
-let versionIndex = 4;
+var version = "0.3.1";
+var versionIndex = 4;
 
-function init() {
-	mainCanvas = document.getElementById("main-canvas");
-	ctx = mainCanvas.getContext("2d");
+var time = performance.now();
+var delta = 0;
+var strain = [];
+var fps = [];
 
-	bindPointerEvent("onpointerdown", "mousedown", "touchstart");
-	bindPointerEvent("onpointermove", "mousemove", "touchmove");
-	bindPointerEvent("onpointerup", "mouseup", "touchend");
-	bindPointerEvent("onmousewheel", "wheel");
-	window.oncontextmenu = e => false;
-	window.onkeydown = handleKeys;
-	window.onbeforeunload = () => {
-		if (scene.$board && scene.$board.fallCount == 0) scene.$board.save();
-	}
+var screens = {};
+var scale = 1;
+var resScale = 1;
+
+var scene;
+
+
+var pointers = {};
+var mousePos = { x: 0, y: 0 };
+var lastArgs;
+var isTouch;
+var isDown;
+
+var currentMode = "";
+
+async function init() {
+	import("./Controls.js").then((module) => {
+		Base = module.Base;
+		//console.log(Base.toString());
+		mainCanvas = document.getElementById("main-canvas");
+		ctx = mainCanvas.getContext("2d");
+		scene = new Base();
+		bindPointerEvent("onpointerdown", "mousedown", "touchstart");
+		bindPointerEvent("onpointermove", "mousemove", "touchmove");
+		bindPointerEvent("onpointerup", "mouseup", "touchend");
+		bindPointerEvent("onmousewheel", "wheel");
+		window.oncontextmenu = e => false;
+		window.onkeydown = handleKeys;
+		window.onbeforeunload = () => {
+			if (scene.$board && scene.$board.fallCount == 0) scene.$board.save();
+		}
 		
-	load();
-	loadRes();
-	loadScreen("intro");
+		load();
+		loadRes();
+		loadScreen("intro");
 
-	loop();
+		loop();
+	});
+
 }
-
-let time = performance.now();
-let delta = 0;
-let strain = [];
-let fps = [];
-
-let scene = controls.base();
-let screens = {}
-let scale = 1;
-let resScale = 1;
-
-let currentMode = "";
 
 function loop(timestamp) {
 	delta = (timestamp ?? performance.now()) - time;
@@ -120,16 +134,11 @@ function renderControls(cts, rect, alpha = 1) {
 	}
 }
 
-let pointers = {};
-let mousePos = { x: 0, y: 0 }
-let lastArgs;
-let isTouch;
-let isDown;
 
 function updateInMouseState(cts, clickthrough = false, did = false) {
 	let did2 = did;
-	for (let ct of [...cts].reverse()) {
-
+	for (let ct of cts.reverse()) {
+		//console.log(ct)
 		let ctr = clickthrough || ct.clickthrough
 
 		if (!ctr && !did && mousePos.x >= ct.rect.x && mousePos.y >= ct.rect.y
@@ -206,7 +215,7 @@ function doTouchEvent(e, type) {
 }
 
 function loadScreen(screenName, clear = true) {
-	if (clear) scene = controls.base();
+	if (clear) scene = new Base();
 	screens[screenName]();
 }
 

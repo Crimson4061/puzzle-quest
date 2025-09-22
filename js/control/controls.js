@@ -1,47 +1,7 @@
+import("./Base.js").then(module => {const Base = module.default;});
 let controls = {
-	base(args) {
-		return {
-			id: "",
-			controls: [],
-			append(ct, id = "") {
-				this.controls.push(ct);
-				if (id) {
-					this["$" + id] = ct;
-					ct.id = id;
-				}
-			},
-			remove(ct) {
-				let index = this.controls.indexOf(ct);
-				if (index > 0) {
-					this.controls.splice(index, 1);
-					if (ct.id && this.controls["$" + ct.id]) delete this.controls["$" + ct.id];
-				}
-			},
-
-			position: Ex(0, 0),
-			size: Ex(0, 0),
-			rect: Rect(0, 0),
-
-			alpha: 1,
-			clickthrough: false,
-
-			__mouseIn: false,
-
-			render() {},
-
-			onupdate() {},
-			onpointerin() {},
-			onpointerout() {},
-			onpointerdown() {},
-			onpointermove() {},
-			onpointerup() {},
-			onmousewheel() {},
-			...args
-		}
-	},
 	rect(args) {
-		return {
-			...controls.base(),
+		return new Base().append({
 			fill: "white",
 			radius: 0,
 
@@ -77,18 +37,16 @@ let controls = {
 				}
 			},
 			...args
-		}
+		})
 	},
 	image(args) {
-		return {
-			...controls.base(),
+		return new Base().append({
 			src: "",
-
 			render() {
 				ctx.drawImage(this.src, this.rect.x, this.rect.y, this.rect.width, this.rect.height);
 			},
 			...args
-		}
+		})
 	},
 	button(args) {
 		return {
@@ -175,8 +133,7 @@ let controls = {
 		}
 	},
 	label(args) {
-		return {
-			...controls.base(),
+		return Object.assign(new Base(), {
 			fill: "white",
 			stroke: "#0000",
 			thickness: 4,
@@ -239,7 +196,7 @@ let controls = {
 				this.lines = lines;
 			},
 			...args
-		}
+		})
 	},
 	input(args) {
 		let ct = {
@@ -472,14 +429,13 @@ let controls = {
 
 			...args
 		}
-		ct.append(controls.base({
+		ct.append(new Base().append({
 			size: Ex(0, 0, 100),
 		}), "content")
 		return ct;
 	},
 	board(args) {
-		return {
-			...controls.base(),
+		return Object.assign({
 			board: Board(),
 			back1: "#666666cc",
 			back2: "#888888cc",
@@ -760,7 +716,7 @@ let controls = {
 						});
 						console.log(popup);
 						
-						let effect; 
+						let effect;
 						this.effects.push(effect = {
 							type: "free-lightning",
 							color: type,
@@ -814,7 +770,7 @@ let controls = {
 						});
 						console.log(popup);
 
-						let effect; 
+						let effect;
 						this.effects.push(effect = {
 							type: "lightning",
 							color: tile.type,
@@ -1139,7 +1095,7 @@ let controls = {
 							exp: 0n,
 						});
 						
-						let effect; 
+						let effect;
 						this.effects.push(effect = {
 							type: "free-lightning",
 							color: null,
@@ -1459,7 +1415,7 @@ let controls = {
 										tile.countdown.toLocaleString("en-US"),
 										this.rect.x + size * (x + offset.x + .5), 
 										this.rect.y + size * (y - offset.y + .52), 
-									);  
+									);
 								}
 							} else {
 
@@ -1511,7 +1467,7 @@ let controls = {
 						this.rect.x + size * this.hint.x - margin, 
 						this.rect.y + size * this.hint.y - margin, 
 						size * (this.hint.type == "hoz" ? 2 : 1) + margin * 2, 
-						size * (this.hint.type == "vet" ? 2 : 1) + margin * 2,  
+						size * (this.hint.type == "vet" ? 2 : 1) + margin * 2,
 					);
 					ctx.globalAlpha = 1;
 				}
@@ -1790,6 +1746,6 @@ let controls = {
 				}
 			},
 			...args,
-		}
+		}, new Base())
 	}
 }
