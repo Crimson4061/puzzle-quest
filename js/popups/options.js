@@ -4,30 +4,28 @@ popups.options = function (parent) {
 	let popup = doPopup(parent);
 	popup.$title.text = "Options";
 
-	popup.$content.append(controls.scroller({
+	popup.$content.append(new Scroller({
 		position: Ex(0, -100, 0, 25),
 		size: Ex(0, 200, 100, 50),
 		fill: 0
 	}), "view");
 
 	let holder = popup.$content.$view.$content
-
+	let y = holder.size.y;
 	function addTitle(title) {
-		let y = holder.size.y;
-		holder.append(controls.label({
+		holder.append(new Label({
 			position: Ex(30, y + 60),
 			text: title,
 			scale: 35,
 			style: "700",
 			align: "left",
 		}));
-		holder.size.y += 95;
-	}
+		y += 95;
+	};
 
 	function addList(id, title, desc = null, perPlayer = false, min = 0, max = 10, replacement = null) {
 		let options = window[perPlayer ? "game" : "meta"].options;
-		let y = holder.size.y;
-		if (desc) holder.append(controls.label({
+		if (desc) holder.append(new Label({
 			position: Ex(30, y + 35),
 			size: Ex(-330, 0, 100),
 			text: desc,
@@ -36,46 +34,45 @@ popups.options = function (parent) {
 			align: "left",
 			wrap: true,
 		}));
-		holder.append(controls.label({
+		holder.append(new Label({
 			position: Ex(30, desc ? y + 10 : y + 30),
 			text: title,
 			scale: 25,
 			style: perPlayer ? "italic" : "",
 			align: "left",
 		}));
-		let upbutton = ButtonWithText(holder, {
-			position: Ex(-90, desc ? y + 5 : y, 100),
-			size: Ex(60, 60),
-		}, "+", () => {
+		holder.append(new ButtonWithText("+", () => {
 			options[id] = Math.min(options[id] + 1, max);
 			save();
 			update();
-		});
-		let text;
-		holder.append(text = controls.label({
+		}, {
+			position: Ex(-90, desc ? y + 5 : y, 100),
+			size: Ex(60, 60),
+		}));
+		let text = new Label({
 			position: Ex(-150, desc ? y + 35 : y + 30, 100),
 			text: "",
 			scale: 25,
-		}));
-		let downbutton = ButtonWithText(holder, {
-			position: Ex(-270, desc ? y + 5 : y, 100),
-			size: Ex(60, 60),
-		}, "-", () => {
+		});
+		holder.append(text);
+		holder.append(new ButtonWithText("-", () => {
 			options[id] = Math.max(options[id] - 1, min);
 			save();
 			update();
-		});
+		}, {
+			position: Ex(-270, desc ? y + 5 : y, 100),
+			size: Ex(60, 60),
+		}));
 		function update() {
 			text.text = (replacement ? replacement[options[id]] ?? options[id] : options[id]).toString();
-		}
+		};
 		update();
-		holder.size.y += desc ? 90 : 80;
-	}
+		y += desc ? 90 : 80;
+	};
 
 	function addToggle(id, title, desc = null, perPlayer = false) {
 		let options = window[perPlayer ? "game" : "meta"].options;
-		let y = holder.size.y;
-		if (desc) holder.append(controls.label({
+		if (desc) holder.append(new Label({
 			position: Ex(30, y + 35),
 			size: Ex(-240, 0, 100),
 			text: desc,
@@ -84,27 +81,28 @@ popups.options = function (parent) {
 			align: "left",
 			wrap: true,
 		}));
-		holder.append(controls.label({
+		holder.append(new Label({
 			position: Ex(30, desc ? y + 10 : y + 30),
 			text: title,
 			scale: 25,
 			style: perPlayer ? "italic" : "",
 			align: "left",
 		}));
-		let button = ButtonWithText(holder, {
-			position: Ex(-150, desc ? y + 5 : y, 100),
-			size: Ex(120, 60),
-		}, "", () => {
+		let button = new ButtonWithText("", () => {
 			options[id] = !options[id];
 			save();
 			update();
+		}, {
+			position: Ex(-150, desc ? y + 5 : y, 100),
+			size: Ex(120, 60),
 		});
+		holder.append(buttton);
 		function update() {
 			button.$text.text = options[id] ? "ON" : "OFF";
-		}
+		};
 		update();
-		holder.size.y += desc ? 90 : 80;
-	}
+		y += desc ? 90 : 80;
+	};
 
 	addTitle("Display");
 	addList("resolution", "Resolution", "Decreasing may improve performance.", false, 0, 2, ["LOW", "MED", "HIGH"]);
@@ -119,9 +117,9 @@ popups.options = function (parent) {
 	addToggle("fpsCounter", "Show FPS Counter", "Show performance stats at the bottom left corner of the screen.");
 	addToggle("showTouches", "Show Presses", "Visualize presses on the screen. Useful for recording.");
 
-	holder.size.y += 20;
+	y += 20;
 
-	holder.append(controls.label({
+	holder.append(new Label({
 		position: Ex(0, holder.size.y + 40, 50),
 		size: Ex(-60, 0, 100),
 		text: "Options that have italicized titles are saved on a per-player basis.\n\n"
@@ -133,12 +131,12 @@ popups.options = function (parent) {
 
 	holder.size.y += 220;
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};

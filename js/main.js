@@ -1,34 +1,41 @@
-var Base;
-var mainCanvas;
-var ctx;
+let Base, Label, Rect, Button, ButtonWithText, Gembar, Scroller, Input;
+let mainCanvas;
+let ctx;
 
-var version = "0.3.1";
-var versionIndex = 4;
+let version = "0.3.1";
+let versionIndex = 4;
 
-var time = performance.now();
-var delta = 0;
-var strain = [];
-var fps = [];
+let time = performance.now();
+let delta = 0;
+let strain = [];
+let fps = [];
 
-var screens = {};
-var scale = 1;
-var resScale = 1;
+let screens = {};
+let scale = 1;
+let resScale = 1;
 
-var scene;
+let scene;
 
 
-var pointers = {};
-var mousePos = { x: 0, y: 0 };
-var lastArgs;
-var isTouch;
-var isDown;
+let pointers = {};
+let mousePos = { x: 0, y: 0 };
+let lastArgs;
+let isTouch;
+let isDown;
 
-var currentMode = "";
+let currentMode = "";
 
 async function init() {
 	import("./Controls.js").then((module) => {
 		Base = module.Base;
-		//console.log(Base.toString());
+		Label = module.Label;
+		Rect = module.Rect;
+		Button = module.Button;
+		ButtonWithText = module.ButtonWithText;
+		Gembar = module.Gembar;
+		Scroller = module.Scroller;
+		Input = module.Input;
+
 		mainCanvas = document.getElementById("main-canvas");
 		ctx = mainCanvas.getContext("2d");
 		scene = new Base();
@@ -106,15 +113,18 @@ function loop(timestamp) {
 
 function renderControls(cts, rect, alpha = 1) {
 	for (let ct of cts) {
-		ct.rect = Rect(
+		//console.log(ct.id + " 1");
+		ct.rect = Rectangle(
 			ct.position.x * scale + ct.position.ex * rect.width / 100 + rect.x,
 			ct.position.y * scale + ct.position.ey * rect.height / 100 + rect.y,
 			ct.size.x * scale + ct.size.ex * rect.width / 100,
 			ct.size.y * scale + ct.size.ey * rect.height / 100,
 		);
+		//console.log(ct.id + " 2");
 		let a = alpha * ct.alpha;
 		ctx.globalAlpha = a;
 		ct.onupdate();
+		//console.log(ct.id + " 3");
 		if (a > 0) {
 			if (ct.mask) { 
 				ctx.save();
@@ -137,7 +147,7 @@ function renderControls(cts, rect, alpha = 1) {
 
 function updateInMouseState(cts, clickthrough = false, did = false) {
 	let did2 = did;
-	for (let ct of cts.reverse()) {
+	for (let ct of [...cts].reverse()) {
 		//console.log(ct)
 		let ctr = clickthrough || ct.clickthrough
 
@@ -216,6 +226,7 @@ function doTouchEvent(e, type) {
 
 function loadScreen(screenName, clear = true) {
 	if (clear) scene = new Base();
+	console.log(screenName);
 	screens[screenName]();
 }
 

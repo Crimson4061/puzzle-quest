@@ -4,7 +4,7 @@ popups.tbd = function (parent) {
 	let popup = doPopup(parent);
 	popup.$title.text = "Coming Soon...";
 
-	popup.$content.append(controls.label({
+	popup.$content.append(new Label({
 		position: Ex(0, -40, 50, 25),
 		size: Ex(-60, 0, 100),
 		scale: 25,
@@ -14,12 +14,12 @@ popups.tbd = function (parent) {
 		wrap: true,
 	}), "subtitle")
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};

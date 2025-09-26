@@ -4,7 +4,7 @@ popups.storage = function (parent) {
 	let popup = doPopup(parent);
 	popup.$title.text = "Manage Storage";
 
-	popup.$content.append(controls.scroller({
+	popup.$content.append(new Scroller({
 		position: Ex(0, -100, 0, 25),
 		size: Ex(0, 200, 100, 50),
 		fill: 0
@@ -13,7 +13,7 @@ popups.storage = function (parent) {
 	let holder = popup.$content.$view.$content;
 	holder.size.y = 640;
 
-	holder.append(controls.label({
+	holder.append(new Label({
 		position: Ex(0, 50, 50),
 		size: Ex(-60, 0, 100),
 		scale: 25,
@@ -24,39 +24,39 @@ popups.storage = function (parent) {
 		wrap: true,
 	}), "subtitle")
 
-	ButtonWithText(holder, {
+	holder.append(new ButtonWithText("Backup Player", () => {
+		exportPlayer();
+	}, {
 		position: Ex(30, 300, 0),
 		size: Ex(-40, 60, 50),
-	}, "Backup Player", () => {
-		exportPlayer();
-	});
+	}));
 
-	ButtonWithText(holder, {
+	holder.append(new ButtonWithText("Restore Backup", () => {
+		importPlayer(popup);
+	}, {
 		position: Ex(10, 300, 50),
 		size: Ex(-40, 60, 50),
-	}, "Restore Backup", () => {
-		importPlayer(popup);
-	});
+	}, "Restore Backup"));
 
-	ButtonWithText(holder, {
-		position: Ex(30, 540, 0),
-		size: Ex(-60, 60, 100),
-	}, "Request Persistent Storage", () => {
+	holder.append(new ButtonWithText("Request Persistent Storage", () => {
 		try {
 			navigator.storage.persist().then(x => {
 				holder.$persist.$text.text = x ? "Request Successful!!!!" : "Failure: User denied request";
 			});
 		} catch {
 			holder.$persist.$text.text = "Failure: Feature unsupported";
-		}
-	}, "persist");
+		};
+	}, {
+		position: Ex(30, 540, 0),
+		size: Ex(-60, 60, 100),
+	}), "persist");
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};

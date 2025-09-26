@@ -4,26 +4,26 @@ popups.playerDel = function (parent, id) {
 	let popup = doPopup(parent);
 	popup.$title.text = "Delete Player?";
 
-	ButtonWithText(popup.$content, {
-		position: Ex(30, 40, 0, 75),
-		size: Ex(-60, 60, 100),
-	}, "Yes", () => {
+	popup.$content.append(new ButtonWithText("Yes", () => {
 		deletePlayer(id);
 		let p = popup;
 		while (p) {
 			p.close();
 			p = p.parent;
 			popupAnim = false;
-		}
+		};
 		popups.switcher();
-	});
+	}, {
+		position: Ex(30, 40, 0, 75),
+		size: Ex(-60, 60, 100),
+	}));
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "No", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};

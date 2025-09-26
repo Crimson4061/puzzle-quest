@@ -4,7 +4,7 @@ popups.changelog = function (parent) {
 	let popup = doPopup(parent);
 	popup.$title.text = "Changelog";
 
-	popup.$content.append(controls.scroller({
+	popup.$content.append(new Scroller({
 		position: Ex(0, -100, 0, 25),
 		size: Ex(0, 200, 100, 50),
 		fill: 0,
@@ -14,8 +14,7 @@ popups.changelog = function (parent) {
 
 	function addTitle(title, date) {
 		let y = holder.size.y;
-		let label;
-		holder.append(label = controls.label({
+		let label = new Label({
 			position: Ex(30, y),
 			size: Ex(-60, 40, 100),
 			text: title,
@@ -23,8 +22,9 @@ popups.changelog = function (parent) {
 			style: "700",
 			align: "left",
 			baseline: "top",
-		}));
-		if (date) label.append(controls.label({
+		});
+		holder.append(label);
+		if (date) label.append(new Label({
 			position: Ex(0, 10, 100),
 			text: date,
 			scale: 25,
@@ -35,8 +35,7 @@ popups.changelog = function (parent) {
 	}
 	function addItem(content) {
 		let y = holder.size.y;
-		let label;
-		holder.append(label = controls.label({
+		let label = new Label({
 			position: Ex(70, y + 20),
 			size: Ex(-100, 20, 100),
 			text: content,
@@ -44,14 +43,16 @@ popups.changelog = function (parent) {
 			align: "left",
 			baseline: "top",
 			wrap: true,
-		}));
-		label.append(controls.label({
+		});
+		holder.append(label);
+		label.append(new Label({
 			position: Ex(-20, y),
 			text: "•",
 			scale: 25,
 			baseline: "top",
 		}));
-	}
+	};
+
 	addTitle("v0.3.1", "Oct 18, 2023");
 	addItem("Fixed importing saves throwing an error when there are player data conflicts.");
 	addItem("Fixed keyboard + mouse controls not behaving correctly when lowering the resolution.");
@@ -84,7 +85,7 @@ popups.changelog = function (parent) {
 	addItem("Released the game on galaxy.click.");
 	addItem("Did some other stuff that was not documented.");
 
-	popup.$content.append(controls.base({
+	popup.$content.append(new Base({
 		render() {
 			holder.size.y = 0;
 			for (let item of holder.controls) {
@@ -101,7 +102,7 @@ popups.changelog = function (parent) {
 		}
 	}), "init");
 
-	popup.$content.append(controls.base({
+	popup.$content.append(new Base({
 		render() {
 			let min = -holder.position.y;
 			let max = min + popup.$content.$view.rect.height / scale;
@@ -111,12 +112,12 @@ popups.changelog = function (parent) {
 		}
 	}), "logic");
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
 }

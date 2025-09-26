@@ -7,21 +7,21 @@ popups.scores = function (parent) {
 	let offset = 0;
 	let targetOffset = 0;
 
-	popup.$content.append(controls.scroller({
+	popup.$content.append(new Scroller({
 		position: Ex(0, 0, 0, 25),
 		size: Ex(0, 100, 100, 50),
 		fill: 0
 	}), "view");
 
 	let holder = popup.$content.$view.$content;
-
-	popup.$content.append(controls.scroller({
+	let y = holder.size.y
+	popup.$content.append(new Scroller({
 		position: Ex(0, -100, 0, 25),
 		size: Ex(0, 100, 100),
 		fill: "#0007",
 		mask: true,
 	}), "title");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "⮜",
 		style: "700",
@@ -29,7 +29,7 @@ popups.scores = function (parent) {
 		stroke: "#ccc",
 		scale: 40,
 	}), "prev");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "⮞",
 		style: "700",
@@ -37,25 +37,26 @@ popups.scores = function (parent) {
 		stroke: "#ccc",
 		scale: 40,
 	}), "next");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "Classic",
 		style: "700",
 		scale: 40,
 	}), "text");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "Classic",
 		style: "700",
 		scale: 40,
 	}), "textprev");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "Classic",
 		style: "700",
 		scale: 40,
 	}), "textnext");
-	popup.$content.$title.append(controls.base({
+
+	popup.$content.$title.append(new Base({
 		position: Ex(0, 0),
 		size: Ex(0, 0, 100, 100),
 		onupdate() {
@@ -102,39 +103,39 @@ popups.scores = function (parent) {
 
 	let index = 0;
 	function addScoreEntry(title, data, back) {
-		let y = holder.size.y;
-		if (back) holder.append(controls.rect({
+		if (back) holder.append(new Rect({
 			position: Ex(0, y),
 			size: Ex(0, 60, 100),
 			fill: "#fff1",
 		}));
 		index++;
-		holder.append(controls.label({
+		holder.append(new Label({
 			position: Ex(80, y + 30),
 			text: index + ".",
 			scale: 25,
 			align: "right",
 		}));
-		holder.append(controls.label({
+		holder.append(new Label({
 			position: Ex(100, y + 30),
 			text: title,
 			scale: 25,
 			align: "left",
 		}));
-		holder.append(controls.label({
+		holder.append(new Label({
 			position: Ex(-30, y + 30, 100),
 			text: data,
 			scale: 25,
 			align: "right",
 		}));
-		holder.size.y += 60;
-	}
+		y += 60;
+	};
 
 	let modeList = {
 		classic: "Classic",
 		speed: "Speed",
 		action: "Action",
-	}
+	};
+
 	let modeKeys = Object.keys(modeList);
 	let viewingMode = "";
 
@@ -149,17 +150,17 @@ popups.scores = function (parent) {
 		popup.$content.$view.scrollPos = popup.$content.$view.scrollSpd =  holder.size.y = index = 0;
 		for (let score of meta.scores[mode]) {
 			addScoreEntry(meta.players[score.id]?.name ?? score.name, BigInt(score.score).toLocaleString("en-US"), index % 2 - 1)
-		}
-	}
+		};
+	};
 
 	setMode("classic");
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};

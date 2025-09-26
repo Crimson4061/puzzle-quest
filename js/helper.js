@@ -1,10 +1,10 @@
 function Ex(x, y, ex = 0, ey = 0) {
 	return { x, y, ex, ey };
-}
+};
 
-function Rect(x, y, width = 0, height = 0) {
+function Rectangle(x, y, width = 0, height = 0) {
 	return { x, y, width, height };
-}
+};
 
 function Board(args = {}) {
 	let board = {
@@ -36,35 +36,35 @@ function Board(args = {}) {
 								this.tiles[x + cy * 100] = this.tiles[x + y * 100];
 								this.tiles[x + cy * 100].offset.y += cy - y;
 								this.tiles[x + y * 100] = null;
-							}
+							};
 							cy--;
-						}
-					}
-				}
+						};
+					};
+				};
 				if (cy >= 0) {
 					for (let y = 0; y <= cy; y++) {
 						let yPos = Math.max(
 							cy - y + (mainCanvas.height / 800) / scale * this.height - 5,
 							this.tiles[x + (y - 1) * 100]?.offset.y ?? 0,
-						)
+						);
 						this.tiles[x + y * 100] = {
 							type: Math.floor(Math.random() * this.types),
 							offset: { x: 0, y: yPos },
 							velocity: { x: 0, y: cy - y },
 							lifetime: 0,
-						}
+						};
 						fills.push(x + y * 100);
-					}
-				}
-			}
+					};
+				};
+			};
 
 			if (this.alwaysHaveMoves && check && fills.length > 0) {
 				while (this.findValidMoves().count == 0) {
 					for (let tile of fills) {
 						this.tiles[tile].type = Math.floor(Math.random() * this.types);
-					}
-				}
-			}
+					};
+				};
+			};
 
 			return fills;
 		},
@@ -76,7 +76,7 @@ function Board(args = {}) {
 					let index = Math.floor(Math.random() * values.length);
 					if (this.tiles[key].power == "countdown") this.tiles[key].power = "";
 					this.tiles[key] = values.splice(index, 1)[0];
-				}
+				};
 				console.log(this.tiles);
 			} while (this.findMatches().count > 0 || this.findValidMoves().count == 0);
 		},
@@ -96,8 +96,8 @@ function Board(args = {}) {
 								hozTiles[x + hoz + y * 100] = x + y * 100;
 							} else {
 								break;
-							}
-						}
+							};
+						};
 						if (hoz >= 3) {
 							for (let h = 0; h < hoz; h++) {
 								hozTiles[x + h + y * 100] = x + y * 100;
@@ -105,10 +105,10 @@ function Board(args = {}) {
 							matches[x + y * 100] = {
 								hozStart: x + y * 100,
 								hozLength: hoz,
-							}
+							};
 							matches.count++;
-						}
-					}
+						};
+					};
 					if (vetTiles[x + y * 100] === undefined && y < this.height - 2) {
 						let vet = 1;
 						let hozIndex = x + y * 100;
@@ -119,8 +119,8 @@ function Board(args = {}) {
 								if (hozTiles[ind]) hozIndex = hozTiles[ind];
 							} else {
 								break;
-							}
-						}
+							};
+						};
 						if (vet >= 3) {
 							vetTiles[x + y * 100] = x + y * 100;
 							if (matches[hozIndex] && !matches[hozIndex].vetLength) {
@@ -135,13 +135,13 @@ function Board(args = {}) {
 								matches[x + y * 100] = {
 									vetStart: x + y * 100,
 									vetLength: vet,
-								}
+								};
 								matches.count++;
-							}
-						}
-					}
-				}
-			}
+							};
+						};
+					};
+				};
+			};
 			return matches;
 		},
 		findValidMoves() {
@@ -157,21 +157,21 @@ function Board(args = {}) {
 						moves[x + y * 100] = { hoz: true };
 						moves.count++;
 						continue;
-					}
+					};
 
 					let counter = 0;
 					if (tileA.type == this.tiles[x + y * 100 - 99]?.type) {
 						counter++;
 						if (tileA.type == this.tiles[x + y * 100 - 199]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (tileA.type == this.tiles[x + y * 100 + 101]?.type) {
 						counter++;
 						if (tileA.type == this.tiles[x + y * 100 + 201]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (counter >= 2 || (
 						tileA.type == this.tiles[x + y * 100 + 2]?.type && 
 						tileA.type == this.tiles[x + y * 100 + 3]?.type
@@ -179,21 +179,21 @@ function Board(args = {}) {
 						moves[x + y * 100] = { hoz: true };
 						moves.count++;
 						continue;
-					}
+					};
 
 					counter = 0;
 					if (tileB.type == this.tiles[x + y * 100 + 100]?.type) {
 						counter++;
 						if (tileB.type == this.tiles[x + y * 100 + 200]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (tileB.type == this.tiles[x + y * 100 - 100]?.type) {
 						counter++;
 						if (tileB.type == this.tiles[x + y * 100 - 200]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (counter >= 2 || (
 						tileB.type == this.tiles[x + y * 100 - 1]?.type && 
 						tileB.type == this.tiles[x + y * 100 - 2]?.type
@@ -201,9 +201,9 @@ function Board(args = {}) {
 						moves[x + y * 100] = { hoz: true };
 						moves.count++;
 						continue;
-					}
-				}
-			}
+					};
+				};
+			};
 			for (let x = 0; x < this.width; x++) {
 				for (let y = 0; y < this.height - 1; y++) {
 					let tileA = this.tiles[x + y * 100];
@@ -215,21 +215,21 @@ function Board(args = {}) {
 						moves[x + y * 100] = { ...moves[x + y * 100], vet: true };
 						moves.count++;
 						continue;
-					}
+					};
 
 					let counter = 0;
 					if (tileA.type == this.tiles[x + y * 100 + 99]?.type) {
 						counter++;
 						if (tileA.type == this.tiles[x + y * 100 + 98]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (tileA.type == this.tiles[x + y * 100 + 101]?.type) {
 						counter++;
 						if (tileA.type == this.tiles[x + y * 100 + 102]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (counter >= 2 || (
 						tileA.type == this.tiles[x + y * 100 + 200]?.type && 
 						tileA.type == this.tiles[x + y * 100 + 300]?.type
@@ -237,21 +237,21 @@ function Board(args = {}) {
 						moves[x + y * 100] = { ...moves[x + y * 100], vet: true };
 						moves.count++;
 						continue;
-					}
+					};
 
 					counter = 0;
 					if (tileB.type == this.tiles[x + y * 100 - 1]?.type) {
 						counter++;
 						if (tileB.type == this.tiles[x + y * 100 - 2]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (tileB.type == this.tiles[x + y * 100 + 1]?.type) {
 						counter++;
 						if (tileB.type == this.tiles[x + y * 100 + 2]?.type) {
 							counter++;
-						}
-					}
+						};
+					};
 					if (counter >= 2 || (
 						tileB.type == this.tiles[x + y * 100 - 100]?.type && 
 						tileB.type == this.tiles[x + y * 100 - 200]?.type
@@ -259,10 +259,10 @@ function Board(args = {}) {
 						moves[x + y * 100] = { ...moves[x + y * 100], vet: true };
 						moves.count++;
 						continue;
-					}
-				}
-			}
-			return moves
+					};
+				};
+			};
+			return moves;
 		},
 		doMatches(matches) {
 			if (matches.count == 0) return;
@@ -272,19 +272,19 @@ function Board(args = {}) {
 				if (match.hozLength) {
 					for (let c = 0; c - match.hozLength; c++) {
 						this.tiles[match.hozStart + c] = null;
-					}
-				}
+					};
+				};
 				if (match.vetLength) {
 					for (let c = 0; c - match.vetLength; c++) {
 						this.tiles[match.vetStart + c * 100] = null;
-					}
-				}
-			}
+					};
+				};
+			};
 
 			this.refill();
 		},
 		...args,
-	}
+	};
 
 	// Initialization
 	{
@@ -294,9 +294,9 @@ function Board(args = {}) {
 					type: Math.floor(Math.random() * board.types),
 					offset: { x: 0, y: 0 },
 					velocity: { x: 0, y: 0 },
-				}
-			}
-		}
+				};
+			};
+		};
 
 		let matches;
 		while ((matches = board.findMatches()).count) board.doMatches(matches);
@@ -306,33 +306,12 @@ function Board(args = {}) {
 				let tile = board.tiles[x + y * 100];
 				tile.offset = { x: 0, y: board.height + (mainCanvas.height / 1000) / scale * board.height + Math.random() };
 				tile.velocity = { x: 0, y: board.height - y * 2 - 5 };
-			}
-		}
-	}
+			};
+		};
+	};
 
 	return board;
-}
-
-function ButtonWithText(parent, args, text, onclick, id) {
-	let button;
-	parent.append(button = controls.button({
-		fill: "#aaa7",
-		onclick,
-		...args
-	}), id)
-	button.append(controls.rect({
-		position: Ex(2, 2),
-		size: Ex(-4, -4, 100, 100),
-		fill: "#000a",
-	}), "fill")
-	button.append(controls.label({
-		position: Ex(0, 0, 50, 50),
-		scale: 25,
-		text,
-	}), "text")
-	return button;
-}
-
+};
 
 function getRankData() {
 	let level, goal;
@@ -344,66 +323,72 @@ function getRankData() {
 			game.stats.exp -= goal;
 			game.stats.level ++;
 		} else break;
-	}
+	};
 
 	return {level, goal}
-}
+};
 
 function rankBarLevelPopup(exp, onDone, popup = null) {
+	import("./Controls.js").then(() => {
+			Rect = module.Rect;
+			Gembar = module.Gembar;
+			Label = module.Label;
+		}
+	);
 	game.stats.exp += exp;
 	game.stats.totalExp += exp;
 
 	if (!popup) {
-		scene.append(popup = controls.rect({
+		scene.append(popup = new Rect({
 			position: Ex(-270, -90, 50, 50),
 			size: Ex(540, 180),
 			fill: "#444",
 			alpha: 0,
-		}))
-		popup.append(controls.rect({
+		}));
+		popup.append(new Rect({
 			position: Ex(4, 4),
 			size: Ex(-8, -8, 100, 100),
 			fill: "#0007",
-		}), "fill")
+		}), "fill");
 		
-		popup.append(controls.gembar({
+		popup.append(new Gembar({
 			position: Ex(-249, -28, 50, 50),
 			size: Ex(498, 56),
 			fill: "#777a",
-		}), "progress")
-		popup.$progress.append(controls.label({
+		}), "progress");
+		popup.$progress.append(new Label({
 			position: Ex(10, -25),
 			align: "left",
 			scale: 25,
-		}), "rank")
-		popup.$progress.append(controls.label({
+		}), "rank");
+		popup.$progress.append(new Label({
 			position: Ex(-10, -25, 100),
 			align: "right",
 			style: "italic",
 			scale: 25,
-		}), "title")
-		popup.$progress.append(controls.label({
+		}), "title");
+		popup.$progress.append(new Label({
 			position: Ex(0, 30, 50, 100),
 			scale: 25,
-		}), "goal")
-	}
+		}), "goal");
+	};
 
-	let popup2;
-	scene.append(popup2 = controls.rect({
+	let popup2 = new Rect({
 		position: Ex(-150, -180, 50, 50),
 		size: Ex(300, 60),
 		fill: "#444",
 		alpha: 0,
-	}))
-	popup2.append(controls.rect({
+	});
+	popup2.append(new Rect({
 		position: Ex(4, 4),
 		size: Ex(-8, -8, 100, 100),
 		fill: "#0007",
-	}), "fill")
-	popup2.append(controls.label({
+	}), "fill");
+	popup2.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		scale: 25,
-	}), "add")
+	}), "add");
+	scene.append(popup2);
 
 	function init() {
 		game.stats.exp -= exp;
@@ -414,7 +399,7 @@ function rankBarLevelPopup(exp, onDone, popup = null) {
 		popup.$progress.$goal.text = (goal - game.stats.exp).toLocaleString("en-US") + " XP to next level";
 		popup2.$add.text = "+" + (exp).toLocaleString("en-US") + " XP";
 		startAnimation(anim1);
-	}
+	};
 
 	function anim1(x) {
 		popup.alpha = ease.quart.inout(clamp01(x / 300));
@@ -424,8 +409,8 @@ function rankBarLevelPopup(exp, onDone, popup = null) {
 		if (x > 600) {
 			setTimeout(() => startAnimation(anim2), 1000);
 			return true;
-		}
-	}
+		};
+	};
 
 	let totalExp = Number(exp);
 	let levelUpCooldown = 0;
@@ -451,8 +436,8 @@ function rankBarLevelPopup(exp, onDone, popup = null) {
 		} else if (exp == 0) {
 			setTimeout(() => startAnimation(anim3), 1500);
 			return true;
-		}
-	}
+		};
+	};
 
 	function anim3(x) {
 		popup.alpha = 1 - ease.quart.in(clamp01(x / 500));
@@ -464,18 +449,18 @@ function rankBarLevelPopup(exp, onDone, popup = null) {
 			scene.remove(popup2);
 			onDone?.();
 			return true;
-		}
-	}
+		};
+	};
 
-	requestAnimationFrame(init)
-}
+	requestAnimationFrame(init);
+};
 
 function formatDuration(ms) {
 	let txt = Math.floor((ms /= 60000) % 60) + "m";
 	if ((ms /= 60) >= 1) txt = Math.floor(ms % 24) + "h " + txt;
 	if ((ms /= 24) >= 1) txt = Math.floor(ms) + "d " + txt;
-	return txt
-}
+	return txt;
+};
 
 function getAwardXP(exp) {
 	let min = (...args) => args.reduce((m, e) => e < m ? e : m);
@@ -484,11 +469,11 @@ function getAwardXP(exp) {
 	if (currentMode == "action") exp = exp * min(75n + scene.$board.data.level * 5n, 200n) / 100n;
 	if (currentMode == "speed") exp = exp * min(100n + scene.$board.data.maxLevel * 3n, 200n) / 100n;
 	return exp;
-}
+};
 
 function getLevelGoal(level) {
 	return currentMode == "classic" ? 150 + 150 * level : 
 		   currentMode == "action" ? 150 + 250 * level :
 		   currentMode == "endless" ? Math.min(250 + 250 * level, 5000) :
 		   Infinity;
-}
+};

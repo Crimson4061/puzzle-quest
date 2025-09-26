@@ -5,34 +5,34 @@ popups.playerOpt = function (parent, id) {
 	popup.$title.text = meta.players[id].name;
 
 	if (meta.currentPlayer != id) {
-		ButtonWithText(popup.$content, {
-			position: Ex(30, -40, 0, 75),
-			size: Ex(-60, 60, 100),
-		}, "Switch Player", () => {
+		popup.$content.append(new ButtonWithText("Switch Player", () => {
 			switchPlayer(id);
 			loadScreen("main");
-		});
-		ButtonWithText(popup.$content, {
+		}, {
+			position: Ex(30, -40, 0, 75),
+			size: Ex(-60, 60, 100),
+		}));
+		popup.$content.append(new ButtonWithText("Delete Player", () => {
+			popups.playerDel(popup, id);
+		}, {
 			position: Ex(30, 40, 0, 75),
 			size: Ex(-60, 60, 100),
-		}, "Delete Player", () => {
-			popups.playerDel(popup, id);
-		});
+		}));
 	} else {
-		popup.$content.append(controls.label({
+		popup.$content.append(new Label({
 			position: Ex(0, 70, 50, 75),
 			scale: 25,
 			style: "italic",
 			text: "This is the current player"
-		}))
-	}
+		}));
+	};
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};

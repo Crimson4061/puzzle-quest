@@ -1,7 +1,7 @@
 screens.intro = function () {
+	
 	//[title, action, info, logic]
-	//console.log(controls.label.toString())
-	scene.append(controls.label({
+	scene.append(new Label({
 		position: Ex(-300, -100, 50, 45),
 		size: Ex(500, 0),
 		scale: 70,
@@ -11,7 +11,7 @@ screens.intro = function () {
 		align: "left",
 		alpha: 0,
 	}), "title")
-	scene.append(controls.label({
+	scene.append(new Label({
 		position: Ex(0, 50, 50, 70),
 		scale: 25,
 		text: "Click or touch the screen to start",
@@ -19,7 +19,7 @@ screens.intro = function () {
 		alpha: 0,
 	}), "action")
 
-	scene.append(controls.label({
+	scene.append(new Label({
 		position: Ex(0, -60, 50, 100),
 		scale: 15,
 		text: "Version " + version + "\nGame created by ducdat0507",
@@ -50,21 +50,19 @@ screens.intro = function () {
 	//console.log(scene.$logic)
 
 	startAnimation(x => {
-		console.log("fuckshit " + x + " " + time + " " + isAnimating)
 		scene.$title.alpha = ease.cubic.out(Math.min(Math.max((x - 100) / 500, 0), 1));
 		scene.$action.alpha = ease.cubic.out(Math.min(Math.max((x - 300) / 500, 0), 1));
 		scene.$info.alpha = ease.cubic.out(Math.min(Math.max((x - 500) / 500, 0), 1)) * 0.5;
 		if (x >= 1000) isAnimating = false;
-		console.log(isAnimating)
 		return x >= 1000;
 	});
 
-/*	function outtro(x) {
+	function outtro(x) {
 		scene.$title.position.ex = 50 + ease.quart.in(x / 1000) * 100;
 		scene.$action.position.ex = 50 - ease.quart.in(x / 1000) * 100;
 		scene.$action.alpha = Math.cos(x / 20) / 2 + .5;
 		scene.$info.alpha = 0.5 - ease.cubic.in(Math.min(x / 1000, 1)) * 0.5;
-		if (x >= 1000) loadScreen("main");
+		if (x >= 1000) loadScreen("mainMenu");
 		return x >= 1000;
-	}*/
+	}
 }

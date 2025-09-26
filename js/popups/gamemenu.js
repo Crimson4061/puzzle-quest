@@ -4,27 +4,27 @@ popups.gamemenu = function (parent) {
 	let popup = doPopup(parent);
 	popup.$title.text = "Menu";
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("How to Play", () => {
+		popups.help(popup);
+	}, {
 		position: Ex(30, 40, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "How to Play", () => {
-		popups.help(popup);
-	});
+	}));
 
-	ButtonWithText(popup.$content, {
-		position: Ex(30, 120, 0, 75),
-		size: Ex(-40, 60, 50),
-	}, "Main Menu", () => {
+	popup.$content.append(new ButtonWithText("Main Menu", () => {
 		if (scene.$board.fallCount == 0) scene.$board.save();
 		loadScreen("main");
-	});
-
-	ButtonWithText(popup.$content, {
-		position: Ex(10, 120, 50, 75),
+	}, {
+		position: Ex(30, 120, 0, 75),
 		size: Ex(-40, 60, 50),
-	}, "Continue →", () => {
+	}));
+
+	popup.$content.append(new ButtonWithText("Back", () => {
 		popup.close();
-	});
+	}, {
+		position: Ex(30, 120, 0, 75),
+		size: Ex(-60, 60, 100),
+	}));
 
 	return popup;
-}
+};

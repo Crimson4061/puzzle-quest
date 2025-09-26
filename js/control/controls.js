@@ -1,6 +1,6 @@
 import("./Base.js").then(module => {const Base = module.default;});
 let controls = {
-	rect(args) {
+/*	rect(args) {
 		return new Base().append({
 			fill: "white",
 			radius: 0,
@@ -38,7 +38,7 @@ let controls = {
 			},
 			...args
 		})
-	},
+	},*/
 	image(args) {
 		return new Base().append({
 			src: "",
@@ -48,7 +48,7 @@ let controls = {
 			...args
 		})
 	},
-	button(args) {
+/*	button(args) {
 		return {
 			...controls.rect(),
 
@@ -131,8 +131,8 @@ let controls = {
 
 			...args
 		}
-	},
-	label(args) {
+	},*/
+/*	label(args) {
 		return Object.assign(new Base(), {
 			fill: "white",
 			stroke: "#0000",
@@ -197,7 +197,7 @@ let controls = {
 			},
 			...args
 		})
-	},
+	},*/
 	input(args) {
 		let ct = {
 			...controls.button(),
@@ -286,7 +286,7 @@ let controls = {
 		}), "content")
 		return ct;
 	},
-	gembar(args) {
+	/*gembar(args) {
 		return {
 			...controls.rect(),
 
@@ -340,8 +340,8 @@ let controls = {
 
 			...args
 		}
-	},
-	scroller(args) {
+	},*/
+	/*scroller(args) {
 		let ct = {
 			...controls.rect(),
 
@@ -433,7 +433,7 @@ let controls = {
 			size: Ex(0, 0, 100),
 		}), "content")
 		return ct;
-	},
+	},*/
 	board(args) {
 		return Object.assign({
 			board: Board(),

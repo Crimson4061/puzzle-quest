@@ -3,32 +3,43 @@ var popups = {};
 let popupAnim = false;
 
 function doPopup(parent) {
-	let popup;
-	scene.append(popup = controls.rect({
+	let popup = new Rect({
+		position: parent ? Ex(-280, 0, 50) : Ex(0, 0),
+		size: parent ? Ex(560, 0, 0, 100) : Ex(0, 0, 100, 100),
+		fill: "#0000",
+		close: () => {
+			if (!popupAnim) {
+				popupAnim = true;
+				outro();
+			};
+		},
+		parent});
+	scene.append(popup);
+/*	scene.append(popup = controls.rect({
 		position: parent ? Ex(-280, 0, 50) : Ex(0, 0),
 		size: parent ? Ex(560, 0, 0, 100) : Ex(0, 0, 100, 100),
 		fill: "#0000",
 		close() {
 			if (!popupAnim) {
 				popupAnim = true;
-				outtro();
+				outro();
 			}
 		},
 		parent,
-	}))
-	popup.append(controls.rect({
+	}))*/
+	popup.append(new Rect({
 		position: Ex(-280, 0, 50),
 		size: Ex(560, 0, 0, 100),
 		fill: "#444",
 		alpha: 0,
-	}), "back")
-	popup.append(controls.rect({
+	}), "back");
+	popup.append(new Rect({
 		position: Ex(-276, 0, 50),
 		size: Ex(552, 0, 0, 100),
 		fill: "#0007",
 		alpha: 0,
-	}), "content")
-	popup.append(controls.label({
+	}), "content");
+	popup.append(new Label({
 		position: Ex(-246, -80, 50, 20),
 		scale: 50,
 		style: "700",
@@ -36,18 +47,18 @@ function doPopup(parent) {
 		align: "left",
 		baseline: "alphabetic",
 		alpha: 0,
-	}), "title")
-	popup.append(controls.rect({
+	}), "title");
+	popup.append(new Rect({
 		position: Ex(-280, 0, 50, 100),
 		size: Ex(560, 0, 0, 100),
 		fill: "#777",
-	}), "fill")
+	}), "fill");
 
 	function setContentAlpha(value) {
 		if (parent) parent.$back.alpha = 1 - value;
 		popup.$back.alpha = popup.$content.alpha = popup.$title.alpha = value;
 		popup.$content.clickthrough = value == 0;
-	}
+	};
 
 	function intro() {
 		function anim1(x) {
@@ -57,19 +68,19 @@ function doPopup(parent) {
 				setContentAlpha(1);
 				startAnimation(anim2);
 				return true;
-			}
-		}
+			};
+		};
 		function anim2(x) {
 			popup.$fill.size.ey = 100 * (1 - clamp01(x / 150));
 			if (x >= 150) {
 				popupAnim = false;
 				return true;
-			}
-		}
+			};
+		};
 		startAnimation(anim1);
-	}
+	};
 
-	function outtro() {
+	function outro() {
 		function anim1(x) {
 			popup.$fill.size.ey = 100 * clamp01(x / 150);
 			if (x >= 150) {
@@ -77,8 +88,8 @@ function doPopup(parent) {
 				mainCanvas.style.cursor = "";
 				startAnimation(anim2);
 				return true;
-			}
-		}
+			};
+		};
 		function anim2(x) {
 			popup.$fill.position.ey = 100 * clamp01(x / 150);
 			popup.fill = "rgba(0, 0, 0, " + (1 - clamp01(x / 150)) * .75 + ")";
@@ -86,10 +97,10 @@ function doPopup(parent) {
 				scene.remove(popup);
 				popupAnim = false;
 				return true;
-			}
-		}
+			};
+		};
 		startAnimation(anim1);
-	}
+	};
 
 	popupAnim = true;
 	intro();

@@ -7,13 +7,13 @@ popups.help = function (parent) {
 	let offset = 0;
 	let targetOffset = 0;
 
-	popup.$content.append(controls.scroller({
+	popup.$content.append(new Scroller({
 		position: Ex(0, -100, 0, 25),
 		size: Ex(0, 100, 100),
 		fill: "#0007",
 		mask: true,
 	}), "title");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "⮜",
 		style: "700",
@@ -21,7 +21,7 @@ popups.help = function (parent) {
 		stroke: "#ccc",
 		scale: 40,
 	}), "prev");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "⮞",
 		style: "700",
@@ -29,25 +29,25 @@ popups.help = function (parent) {
 		stroke: "#ccc",
 		scale: 40,
 	}), "next");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "Classic",
 		style: "700",
 		scale: 40,
 	}), "text");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "Classic",
 		style: "700",
 		scale: 40,
 	}), "textprev");
-	popup.$content.$title.append(controls.label({
+	popup.$content.$title.append(new Label({
 		position: Ex(0, 0, 50, 50),
 		text: "Classic",
 		style: "700",
 		scale: 40,
 	}), "textnext");
-	popup.$content.$title.append(controls.base({
+	popup.$content.$title.append(new Base({
 		position: Ex(0, 0),
 		size: Ex(0, 0, 100, 100),
 		onupdate() {
@@ -62,7 +62,7 @@ popups.help = function (parent) {
 				targetOffset--;
 				let keyIndex = modeKeys.indexOf(viewingMode);
 				setMode(modeKeys[(keyIndex + modeKeys.length - 1) % modeKeys.length]);
-			}
+			};
 		},
 		onpointerdown() {
 			if (mousePos.x < this.rect.x + this.rect.width / 2) targetOffset++;
@@ -92,12 +92,12 @@ popups.help = function (parent) {
 		}
 	}), "logic");
 
-	popup.$content.append(controls.label({
+	popup.$content.append(new Label({
 		position: Ex(0, -180, 50, 50),
 		size: Ex(-60, 0, 100),
 		scale: 25,
 		wrap: true,
-	}), "body")
+	}), "body");
 
 	let modeList = {
 		general: "General",
@@ -105,7 +105,7 @@ popups.help = function (parent) {
 		speed: "Speed",
 		action: "Action",
 		endless: "Endless",
-	}
+	};
 	let modeKeys = Object.keys(modeList);
 	let viewingMode = "";
 
@@ -141,12 +141,12 @@ popups.help = function (parent) {
 
 	setMode(scene.$board ? currentMode : "general");
 
-	ButtonWithText(popup.$content, {
+	popup.$content.append(new ButtonWithText("Back", () => {
+		popup.close();
+	}, {
 		position: Ex(30, 120, 0, 75),
 		size: Ex(-60, 60, 100),
-	}, "Back", () => {
-		popup.close();
-	});
+	}));
 
 	return popup;
-}
+};
